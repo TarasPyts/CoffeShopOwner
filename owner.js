@@ -18,41 +18,38 @@ export class Owner {
   }
 
   hireBarista(barista) {
-    this.checkShopExists();
-
+    if (!this.checkShopExists()) {
+      return;
+    }
     const newBarista = new Barista(barista);
 
-    this.shop.barista.push(newBarista);
+    this.shop.forEach((coffeShop) => coffeShop.barista.push(newBarista));
     console.log(`I hired a barista ${barista}`);
     return newBarista;
   }
 
   fireBarista(name) {
-    this.checkShopExists();
-
-    const baristas = this.shop.barista;
-
-    if (!baristas.length) {
-      console.error(`There is no barista`);
+    if (!this.checkShopExists()) {
       return;
     }
 
-    const index = baristas.findIndex((barista) => barista.name === name);
-
-    if (index === -1) {
-      console.error(`Cannot find barista with name '${name}' in the shop`);
-      return;
-    }
-
-    const firedBarista = baristas.splice(index, 1)[0];
-    console.log(`I fired a barista named '${name}'`);
-    return firedBarista;
+    this.shop.forEach((coffeeShop) => {
+      const index = coffeeShop.barista.findIndex(
+        (barista) => barista.name === name
+      );
+      if (index !== -1) {
+        coffeeShop.barista.splice(index, 1);
+        console.log(`Barista ${name} has been fired.`);
+      } else {
+        console.log(`Barista ${name} was not found in any CoffeeShop.`);
+      }
+    });
   }
 
   addCoffeeShop(coffeeShop) {
     const newCoffeShop = new CoffeShop(coffeeShop);
     this.shop.push(newCoffeShop);
-    console.log('I made a CoffeShop');
+    console.log(`I made a CoffeShop ${coffeeShop}`);
     return newCoffeShop;
   }
 
@@ -60,11 +57,10 @@ export class Owner {
     const index = this.shop.findIndex((shop) => shop.name === coffeeShop);
     if (index === -1) {
       console.error(`Cannot find CoffeeShop with name '${coffeeShop}'`);
-      return;
+    } else {
+      this.shop.splice(index, 1);
+      console.log(`Removed coffee shop '${coffeeShop}'`);
     }
-    const removedShop = this.shop.splice(index, 1)[0];
-    console.log(`Removed coffee shop '${coffeeShop}'`);
-    return removedShop;
   }
 
   calculateMonthlyProfit() {
@@ -78,10 +74,11 @@ export class Owner {
   }
 
   checkShopExists() {
-    if (!this.shop) {
-      console.error("You don't have any shop");
-      return;
+    if (this.shop.length === 0) {
+      console.error('Please add a shop');
+      return false;
     }
+    return true;
   }
 
   showAllShops() {

@@ -4,7 +4,7 @@ export class CoffeShop {
   constructor(name, address, menu, barista) {
     this.name = name;
     this.address = address;
-    this.menu = new Set();
+    this.menu = menu = new Set();
     this.barista = barista = [];
     this.order = 0;
   }
@@ -36,31 +36,31 @@ export class CoffeShop {
   }
 
   fireBarista(name) {
-    const baristas = this.barista;
-
-    if (!baristas.length) {
-      console.error(`There is no barista`);
+    if (!this.checkIfBarista()) {
       return;
     }
-
-    const index = baristas.findIndex((barista) => barista.name === name);
-
+    const index = this.barista.findIndex((barista) => barista.name === name);
     if (index === -1) {
       console.error(`Cannot find barista with name '${name}' in the shop`);
-      return;
+    } else {
+      this.barista.splice(index, 1);
+      console.log(`I fired a barista named '${name}'`);
     }
-
-    const firedBarista = baristas.splice(index, 1)[0];
-    console.log(`I fired a barista named '${name}'`);
-    return firedBarista;
   }
 
   makeCoffee() {
-    this.order += 1;
+    if (!this.checkIfBarista()) {
+      return;
+    }
+    this.orderIncrease();
+    console.log(this.order);
     console.log('I made a coffee');
   }
 
   takeOrder(order) {
+    if (!this.checkIfBarista()) {
+      return;
+    }
     if (this.menu.has(order)) {
       console.log(`I took an order ${order}`);
     } else {
@@ -69,12 +69,27 @@ export class CoffeShop {
   }
 
   serveCustomer(order) {
-    this.order += 1;
+    if (!this.checkIfBarista()) {
+      return;
+    }
+    this.orderIncrease();
     console.log(this.order);
-    console.log(`I served a customer with his ${order}`);
+    console.log(`I served a customer with his ${order ? order : 'order'}`);
   }
 
   calculateMonthlyProfit() {
     console.log((this.order *= 30));
+  }
+
+  orderIncrease() {
+    this.order += 1;
+  }
+
+  checkIfBarista() {
+    if (this.barista.length === 0) {
+      console.error('Please hire a barista');
+      return false;
+    }
+    return true;
   }
 }

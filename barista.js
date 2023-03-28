@@ -1,28 +1,38 @@
 export class Barista {
+  #experience;
   constructor(name, experience, coffeShop) {
     this.name = name;
-    this.experience = experience;
-    this.coffeShop = coffeShop;
-    this._selectCoffeshop = null;
+    this.#experience = experience;
+    this.coffeShop = coffeShop = null;
   }
 
   selectCoffeShop(name) {
-    this._selectCoffeshop = name;
+    this.coffeShop = name;
   }
 
   makeCofdee() {
-    console.log('I made a coffee');
+    this.checkShop();
+    this.coffeShop?.makeCoffee();
   }
 
   takeOrder(order) {
-    this._selectCoffeshop.takeOrder(order);
+    this.checkShop();
+    this.coffeShop?.takeOrder(order);
   }
 
   serveCustomer(order) {
-    this._selectCoffeshop.serveCustomer(order);
+    this.checkShop();
+    this.coffeShop?.serveCustomer(order);
   }
 
   quitJob() {
-    this._selectCoffeshop = null;
+    this.checkShop();
+    this.coffeShop = null;
+  }
+
+  static checkShop() {
+    if (!this.coffeShop) {
+      console.error(`${this.name} you first find a CoffeShop`);
+    }
   }
 }

@@ -1,24 +1,26 @@
 export class Visitor {
+  #name;
+  #favoriteCoffe;
   constructor(name, favoriteCoffe) {
-    this.name = name;
-    this.favoriteCoffe = favoriteCoffe;
+    this.#name = name;
+    this.#favoriteCoffe = favoriteCoffe;
     this._selectCoffeshop = null;
-    this._selectBarista = null;
   }
 
   selectCoffeShop(name) {
     this._selectCoffeshop = name;
-  }
-
-  setBarista(name) {
-    this._selectBarista = name;
+    console.log(`I chose a ${this._selectCoffeshop.name} CoffeShop`);
   }
 
   placeOrder(drink) {
-    this._selectCoffeshop.takeOrder(drink);
+    if (this._selectCoffeshop.menu.has(drink)) {
+      console.log(`I placed an order ${drink}`);
+    } else {
+      console.log('There is no such position in a menu');
+    }
   }
   drinkCoffee(drink) {
-    this._selectCoffeshop.serveCustomer(drink);
-    this._selectBarista = null;
+    this._selectCoffeshop.orderIncrease();
+    console.log(`I'm drinking my ${drink ? drink : 'coffee'}`);
   }
 }

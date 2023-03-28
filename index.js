@@ -3,23 +3,18 @@ import { Barista } from './barista.js';
 import { CoffeShop } from './coffeshop.js';
 import { Visitor } from './visitor.js';
 
-// const ow = new Owner();
-// ow.addCoffeeShop('Kava');
-// console.log(ow);
-
-const ca = new CoffeShop('Kava');
-console.log(ca);
-ca.hireBarista('Petro');
-ca.addMenuItem('k2');
-
-const ba = new Barista('Petro');
-
-const vi = new Visitor('Taras', 'Kava');
-console.log(vi);
-
-vi.selectCoffeShop(ca);
-vi.setBarista(ba);
-console.log(vi);
-vi.placeOrder('k2');
-// vi.drinkCoffee('cof');
-console.log(vi);
+const co = new CoffeShop('Kave', 'Lviv', 'Menu', 5);
+console.log(co);
+co.addMenuItem('kav');
+co.addMenuItem('kav2');
+co.addMenuItem('kav3');
+// co.removeMenuItem('kav3');
+co.hireBarista('Petro');
+co.hireBarista('Petro2');
+co.hireBarista('Petro3');
+co.fireBarista('Petro');
+console.log(co);
+co.takeOrder('kav');
+co.serveCustomer();
+console.log(co);
+co.calculateMonthlyProfit();
