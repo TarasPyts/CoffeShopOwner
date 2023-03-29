@@ -14,7 +14,7 @@ export class Owner {
   }
 
   getProfitLevel() {
-    console.log(this.profitLevel * 30);
+    console.log(this.profitLevel);
   }
 
   hireBarista(barista) {

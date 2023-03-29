@@ -13,14 +13,32 @@ export class Visitor {
   }
 
   placeOrder(drink) {
+    if (!this.checkCoffeShop()) {
+      return;
+    }
+
     if (this._selectCoffeshop.menu.has(drink)) {
       console.log(`I placed an order ${drink}`);
     } else {
       console.log('There is no such position in a menu');
     }
-  }
-  drinkCoffee(drink) {
     this._selectCoffeshop.orderIncrease();
-    console.log(`I'm drinking my ${drink ? drink : 'coffee'}`);
+  }
+
+  drinkCoffee(drink) {
+    if (!this.checkCoffeShop()) {
+      return;
+    }
+    console.log(
+      `I'm drinking my ${drink === this.#favoriteCoffe ? 'favorite' : 'coffee'}`
+    );
+  }
+
+  checkCoffeShop() {
+    if (this._selectCoffeshop === null) {
+      console.error(`You first find a CoffeShop`);
+      return false;
+    }
+    return true;
   }
 }
